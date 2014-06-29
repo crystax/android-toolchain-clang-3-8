@@ -3658,11 +3658,10 @@ public:
     if (Triple.getEnvironment() == llvm::Triple::Android) {
       LongDoubleWidth = 64;
       LongDoubleFormat = &llvm::APFloat::IEEEdouble;
-      DataLayoutString = "e-m:e-p:32:32-f64:32:64-n8:16:32-S128";
     } else {
       LongDoubleWidth = 96;
-      DataLayoutString = "e-m:e-p:32:32-f64:32:64-f80:32-n8:16:32-S128";
     }
+    DataLayoutString = "e-m:e-p:32:32-f64:32:64-f80:32-n8:16:32-S128";
     SizeType = UnsignedInt;
     PtrDiffType = SignedInt;
     IntPtrType = SignedInt;
