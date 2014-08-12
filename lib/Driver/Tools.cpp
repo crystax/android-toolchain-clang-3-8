@@ -1109,6 +1109,9 @@ void mips::getMipsCPUAndABI(const ArgList &Args, const llvm::Triple &Triple,
       Triple.getEnvironment() == llvm::Triple::GNU) {
     DefMips32CPU = "mips32r6";
     DefMips64CPU = "mips64r6";
+  } else if (Triple.getEnvironment() == llvm::Triple::Android) {
+    DefMips32CPU = "mips32";
+    DefMips64CPU = "mips64r6";
   }
 
   // MIPS64r6 is the default for Android MIPS64 (mips64el-linux-android).
