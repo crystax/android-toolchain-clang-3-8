@@ -8821,9 +8821,22 @@ void gnutools::Linker::ConstructJob(Compilation &C, const JobAction &JA,
 
   const llvm::Triple::ArchType Arch = ToolChain.getArch();
   const bool isAndroid = ToolChain.getTriple().isAndroid();
+  bool has_Wl_shared = false;
+  if (isAndroid && Args.hasArg(options::OPT_Wl_COMMA)) {
+    for (const Arg *A : Args) {
+      if (A->getOption().matches(options::OPT_Wl_COMMA) &&
+          A->containsValue("-shared")) {
+        has_Wl_shared = true;
+      }
+    }
+  }
   const bool IsPIE =
       !Args.hasArg(options::OPT_shared) && !Args.hasArg(options::OPT_static) &&
-      (Args.hasArg(options::OPT_pie) || ToolChain.isPIEDefault());
+      (Args.hasArg(options::OPT_pie) || ToolChain.isPIEDefault() ||
+       // On Android every code is PIC so every executable is PIE
+       // Cannot use isPIEDefault here since otherwise
+       // PIE only logic will be enabled during compilation
+       (isAndroid && !has_Wl_shared));
   const bool HasCRTBeginEndFiles =
       ToolChain.getTriple().hasEnvironment() ||
       (ToolChain.getTriple().getVendor() != llvm::Triple::MipsTechnologies);
