@@ -410,6 +410,7 @@ protected:
     Builder.defineMacro("__ELF__");
     if (Triple.isAndroid()) {
       Builder.defineMacro("__ANDROID__", "1");
+      Builder.defineMacro("__CRYSTAX__", "1");
       unsigned Maj, Min, Rev;
       Triple.getEnvironmentVersion(Maj, Min, Rev);
       this->PlatformName = "android";

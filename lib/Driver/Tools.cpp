@@ -9026,6 +9026,10 @@ void gnutools::Linker::ConstructJob(Compilation &C, const JobAction &JA,
       if (WantPthread && !isAndroid)
         CmdArgs.push_back("-lpthread");
 
+      if (isAndroid) {
+          CmdArgs.push_back("-lcrystax");
+      }
+
       CmdArgs.push_back("-lc");
 
       if (Args.hasArg(options::OPT_static))
