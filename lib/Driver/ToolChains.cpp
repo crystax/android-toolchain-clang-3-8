@@ -3927,6 +3927,48 @@ Linux::Linux(const Driver &D, const llvm::Triple &Triple, const ArgList &Args)
 
 bool Linux::HasNativeLLVMSupport() const { return true; }
 
+ObjCRuntime Linux::getDefaultObjCRuntime(bool isNonFragile) const {
+  if (getTriple().getEnvironment() == llvm::Triple::Android)
+    return ObjCRuntime(ObjCRuntime::GNUstep, VersionTuple(1,8));
+  return BaseToolChain::getDefaultObjCRuntime(isNonFragile);
+}
+
+bool Linux::hasBlocksRuntime() const {
+  if (getTriple().getEnvironment() == llvm::Triple::Android)
+    return true;
+  return BaseToolChain::hasBlocksRuntime();
+}
+
+bool Linux::IsBlocksDefault() const {
+  if (getTriple().getEnvironment() == llvm::Triple::Android)
+    return true;
+  return BaseToolChain::IsBlocksDefault();
+}
+
+bool Linux::IsObjCNonFragileABIDefault() const {
+  if (getTriple().getEnvironment() == llvm::Triple::Android)
+    return true;
+  return BaseToolChain::IsObjCNonFragileABIDefault();
+}
+
+bool Linux::SupportsObjCGC() const {
+  if (getTriple().getEnvironment() == llvm::Triple::Android)
+    return false;
+  return BaseToolChain::SupportsObjCGC();
+}
+
+bool Linux::UseObjCMixedDispatch() const {
+  if (getTriple().getEnvironment() == llvm::Triple::Android)
+    return true;
+  return BaseToolChain::UseObjCMixedDispatch();
+}
+
+bool Linux::IsIntegratedAssemblerDefault() const {
+  if (getTriple().getEnvironment() == llvm::Triple::Android)
+    return true;
+  return BaseToolChain::IsIntegratedAssemblerDefault();
+}
+
 Tool *Linux::buildLinker() const { return new tools::gnutools::Linker(*this); }
 
 Tool *Linux::buildAssembler() const {

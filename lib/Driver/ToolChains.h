@@ -781,6 +781,8 @@ protected:
 };
 
 class LLVM_LIBRARY_VISIBILITY Linux : public Generic_ELF {
+private:
+  typedef Generic_ELF BaseToolChain;
 public:
   Linux(const Driver &D, const llvm::Triple &Triple,
         const llvm::opt::ArgList &Args);
@@ -800,6 +802,14 @@ public:
   void addProfileRTLibs(const llvm::opt::ArgList &Args,
                         llvm::opt::ArgStringList &CmdArgs) const override;
   virtual std::string computeSysRoot() const;
+
+  ObjCRuntime getDefaultObjCRuntime(bool isNonFragile) const override;
+  bool hasBlocksRuntime() const override;
+  bool IsBlocksDefault() const override;
+  bool IsObjCNonFragileABIDefault() const override;
+  bool SupportsObjCGC() const override;
+  bool UseObjCMixedDispatch() const override;
+  bool IsIntegratedAssemblerDefault() const override;
 
   std::vector<std::string> ExtraOpts;
 
